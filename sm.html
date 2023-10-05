@@ -23,6 +23,32 @@
       margin: 10px auto;
       display: block;
     }
+    #modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+    }
+    #modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 100px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    #close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -30,6 +56,12 @@
   <video id="video" autoplay></video> <!-- 这里显示摄像头画面 -->
   <canvas id="canvas"></canvas> <!-- 这里用于截取二维码图片 -->
   <button id="scan">扫一扫</button> <!-- 这里是扫描按钮 -->
+  <div id="modal"> <!-- 这里是网页内弹窗 -->
+    <div id="modal-content">
+      <span id="close">×</span>
+      <p id="result"></p>
+    </div>
+  </div>
   <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> <!-- 这里引入一个二维码生成库 -->
   <script src="https://cdn.bootcdn.net/ajax/libs/jsqrcode/0.0.0/jsqrcode.min.js"></script> <!-- 这里引入一个二维码识别库 -->
   <script>
@@ -37,10 +69,13 @@
     var video = document.getElementById("video");
     var canvas = document.getElementById("canvas");
     var scan = document.getElementById("scan");
+    var modal = document.getElementById("modal");
+    var close = document.getElementById("close");
+    var result = document.getElementById("result");
     var ctx = canvas.getContext("2d");
 
     // 获取用户媒体设备（摄像头）
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }) // 使用后置摄像头
       .then(function(stream) {
         // 将摄像头画面显示到video元素中
         video.srcObject = stream;
@@ -61,16 +96,23 @@
         var content = qrcode.decode(canvas.toDataURL());
         // 判断是否为中文
         if (/^[\u4e00-\u9fa5]+$/.test(content)) {
-          // 如果是中文，弹出姓名结果
-          alert("扫描成功，姓名为：" + content);
+          // 如果是中文，显示网页内弹窗，并显示姓名结果
+          modal.style.display = "block";
+          result.textContent = "扫描成功，姓名为：" + content;
         } else {
-          // 如果不是中文，提示不支持查看
+          // 如果不是中文，提示不支持查看非中文姓名
           alert("扫描失败，不支持查看非中文姓名");
         }
       } catch (err) {
         // 处理错误
         alert("无法识别二维码：" + err.message);
       }
+    };
+
+    // 点击关闭按钮时
+    close.onclick = function() {
+      // 隐藏网页内弹窗
+      modal.style.display = "none";
     };
   </script>
 </body>
