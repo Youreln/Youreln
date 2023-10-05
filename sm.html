@@ -1,0 +1,77 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>姓名查看系统</title>
+  <style>
+    /* 这里可以添加一些样式来美化页面 */
+    h1 {
+      text-align: center;
+      color: blue;
+    }
+    #video {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      display: block;
+    }
+    #canvas {
+      display: none;
+    }
+    #scan {
+      width: 100px;
+      height: 40px;
+      margin: 10px auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>姓名查看系统</h1>
+  <video id="video" autoplay></video> <!-- 这里显示摄像头画面 -->
+  <canvas id="canvas"></canvas> <!-- 这里用于截取二维码图片 -->
+  <button id="scan">扫一扫</button> <!-- 这里是扫描按钮 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> <!-- 这里引入一个二维码生成库 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jsqrcode/0.0.0/jsqrcode.min.js"></script> <!-- 这里引入一个二维码识别库 -->
+  <script>
+    // 获取页面元素
+    var video = document.getElementById("video");
+    var canvas = document.getElementById("canvas");
+    var scan = document.getElementById("scan");
+    var ctx = canvas.getContext("2d");
+
+    // 获取用户媒体设备（摄像头）
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        // 将摄像头画面显示到video元素中
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(function(err) {
+        // 处理错误
+        alert("无法访问摄像头：" + err.message);
+      });
+
+    // 点击扫描按钮时
+    scan.onclick = function() {
+      // 将video画面绘制到canvas上
+      ctx.drawImage(video, 0, 0, 300, 300);
+      // 尝试识别canvas上的二维码
+      try {
+        // 使用qrcode库的decode方法
+        var content = qrcode.decode(canvas.toDataURL());
+        // 判断是否为中文
+        if (/^[\u4e00-\u9fa5]+$/.test(content)) {
+          // 如果是中文，弹出姓名结果
+          alert("扫描成功，姓名为：" + content);
+        } else {
+          // 如果不是中文，提示不支持查看
+          alert("扫描失败，不支持查看非中文姓名");
+        }
+      } catch (err) {
+        // 处理错误
+        alert("无法识别二维码：" + err.message);
+      }
+    };
+  </script>
+</body>
+</html>
