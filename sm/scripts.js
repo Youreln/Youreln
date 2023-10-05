@@ -1,5 +1,6 @@
 document.getElementById('scanBtn').addEventListener('click', function() {
     var qrCodeScanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    var scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
     qrCodeScanner.addListener('scan', function(content) {
         if (isChinese(content)) {
             alert('姓名：' + content);
