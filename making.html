@@ -1,59 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>正在制作中</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-        }
-        
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            font-size: 24px;
-            color: #333333;
-            margin-bottom: 10px;
-        }
-        
-        p {
-            font-size: 16px;
-            color: #666666;
-            margin-bottom: 20px;
-        }
-        
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+  <title>成果汇报</title>
+  <style>
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    body {
+      animation: fadeIn 2s ease-in-out;
+    }
+    
+    .bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url(https://pic1.imgdb.cn/item/6468b9e4e03e90d874288273.jpg);
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out;
+    }
+    
+    iframe {
+      display: block;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .iframe-container {
+      position: relative;
+      overflow: hidden;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+    }
+    
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Youreln</h1>
-        <p>请稍等，成果正在制作中...预计明天见面</p>
-        <div class="spinner"></div>
-    </div>
+  <div class="bg-image"></div>
+  
+  <div style="text-align:center;">
+    <iframe src="//player.bilibili.com/player.html?aid=619342230&bvid=BV1e84y1m7gN&cid=1290030979&p=1" scrolling="no" frameborder="no" allowfullscreen="true"></iframe>
+  </div>
+  
+  <div class="iframe-container">
+    <iframe src="https://m7gerjo24q.feishu.cn/docx/F2zXdm2lnoo6xqxKfGGcKz4KnQh?from=from_copylink"></iframe>
+  </div>
+
 </body>
 </html>
